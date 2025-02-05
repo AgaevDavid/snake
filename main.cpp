@@ -1,4 +1,3 @@
-
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <random>
@@ -10,7 +9,7 @@
 
 enum class GameState { Menu, Game, GameOver };
 
-// Функция для генерации случайных координат внутри сетки
+// Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГЈГҐГ­ГҐГ°Г Г¶ГЁГЁ Г±Г«ГіГ·Г Г©Г­Г»Гµ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІ ГўГ­ГіГІГ°ГЁ Г±ГҐГІГЄГЁ
 sf::Vector2f getRandomGridPosition(float gridSize, float gridWidth, float gridHeight, float gridOffsetX, float gridOffsetY) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -40,11 +39,11 @@ void saveBestScore(const std::string& filename, int bestScore) {
 
 int main()
 {
-    bool gameOver = false; // Флаг, указывающий на окончание игры
+    bool gameOver = false; // Г”Г«Г ГЈ, ГіГЄГ Г§Г»ГўГ ГѕГ№ГЁГ© Г­Г  Г®ГЄГ®Г­Г·Г Г­ГЁГҐ ГЁГЈГ°Г»
 
     sf::RenderWindow window(sf::VideoMode(400, 400), "Snake!");
 
-    sf::Vector2f snakeDirection = { 1.f, 0.f }; // Начальное направление: вправо
+    sf::Vector2f snakeDirection = { 1.f, 0.f }; // ГЌГ Г·Г Г«ГјГ­Г®ГҐ Г­Г ГЇГ°Г ГўГ«ГҐГ­ГЁГҐ: ГўГЇГ°Г ГўГ®
 
     sf::Color grayColor(128, 128, 128);
 
@@ -64,28 +63,28 @@ int main()
 
     int attachedCount = 0;
 
-    float gridSize = 10.f; // Размер клетки сетки
-    float snakeSpeed = gridSize; // Змея движется на одну клетку за шаг
+    float gridSize = 10.f; // ГђГ Г§Г¬ГҐГ° ГЄГ«ГҐГІГЄГЁ Г±ГҐГІГЄГЁ
+    float snakeSpeed = gridSize; // Г‡Г¬ГҐГї Г¤ГўГЁГ¦ГҐГІГ±Гї Г­Г  Г®Г¤Г­Гі ГЄГ«ГҐГІГЄГі Г§Г  ГёГ ГЈ
 
-    float dx = 0.f;   // Изменение координаты x (в клетках)
-    float dy = 0.f;   // Изменение координаты y (в клетках)
+    float dx = 0.f;   // Г€Г§Г¬ГҐГ­ГҐГ­ГЁГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» x (Гў ГЄГ«ГҐГІГЄГ Гµ)
+    float dy = 0.f;   // Г€Г§Г¬ГҐГ­ГҐГ­ГЁГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» y (Гў ГЄГ«ГҐГІГЄГ Гµ)
 
-    // Представление змейки
+    // ГЏГ°ГҐГ¤Г±ГІГ ГўГ«ГҐГ­ГЁГҐ Г§Г¬ГҐГ©ГЄГЁ
     std::vector<sf::RectangleShape> snake;
     snake.push_back(sf::RectangleShape(sf::Vector2f(gridSize, gridSize)));
     snake[0].setFillColor(sf::Color::Green);
     snake[0].setPosition(200, 200);
 
-    sf::Vector2f headPos = snake[0].getPosition(); // Получаем позицию из ГОЛОВЫ змейки
+    sf::Vector2f headPos = snake[0].getPosition(); // ГЏГ®Г«ГіГ·Г ГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ ГЁГ§ ГѓГЋГ‹ГЋГ‚Г› Г§Г¬ГҐГ©ГЄГЁ
 
-    std::string bestScoreFilename = "best_score.txt"; //Имя файла для хранения лучшего счёта
-    int bestScore = loadBestScore(bestScoreFilename); // Загрузка лучшего счёта из файла
+    std::string bestScoreFilename = "best_score.txt"; //Г€Г¬Гї ГґГ Г©Г«Г  Г¤Г«Гї ГµГ°Г Г­ГҐГ­ГЁГї Г«ГіГ·ГёГҐГЈГ® Г±Г·ВёГІГ 
+    int bestScore = loadBestScore(bestScoreFilename); // Г‡Г ГЈГ°ГіГ§ГЄГ  Г«ГіГ·ГёГҐГЈГ® Г±Г·ВёГІГ  ГЁГ§ ГґГ Г©Г«Г 
 
     sf::Font font;
     if (!font.loadFromFile("resources/EpilepsySans.ttf")) {
         return EXIT_FAILURE;
     }
-    // Элементы меню
+    // ГќГ«ГҐГ¬ГҐГ­ГІГ» Г¬ГҐГ­Гѕ
     sf::Text menuTitle("Snake!", font, 48);
     menuTitle.setFillColor(sf::Color::White);
     menuTitle.setPosition(20, 200);
@@ -104,8 +103,8 @@ int main()
     bestscoreText.setFillColor(sf::Color::White);
     bestscoreText.setPosition(20, 20);
 
-    bool isMoving = false; // Флаг, указывающий, движется ли змея
-    sf::Clock clock;      // Часы для контроля скорости движения
+    bool isMoving = false; // Г”Г«Г ГЈ, ГіГЄГ Г§Г»ГўГ ГѕГ№ГЁГ©, Г¤ГўГЁГ¦ГҐГІГ±Гї Г«ГЁ Г§Г¬ГҐГї
+    sf::Clock clock;      // Г—Г Г±Г» Г¤Г«Гї ГЄГ®Г­ГІГ°Г®Г«Гї Г±ГЄГ®Г°Г®Г±ГІГЁ Г¤ГўГЁГ¦ГҐГ­ГЁГї
 
     float gridWidth = (window.getSize().x - 80.f) / gridSize;
     float gridHeight = (window.getSize().y - 140.f) / gridSize;
@@ -178,30 +177,30 @@ int main()
                     sf::Vector2f headPos = snake[0].getPosition();
                     sf::Vector2f newHeadPos = { headPos.x + snakeDirection.x * gridSize, headPos.y + snakeDirection.y * gridSize };
 
-                    // Обертывание (с учётом смещения сетки)
+                    // ГЋГЎГҐГ°ГІГ»ГўГ Г­ГЁГҐ (Г± ГіГ·ВёГІГ®Г¬ Г±Г¬ГҐГ№ГҐГ­ГЁГї Г±ГҐГІГЄГЁ)
                     if (newHeadPos.x < gridOffsetX) newHeadPos.x += gridWidth * gridSize;
                     if (newHeadPos.x >= gridOffsetX + gridWidth * gridSize) newHeadPos.x -= gridWidth * gridSize;
                     if (newHeadPos.y < gridOffsetY) newHeadPos.y += gridHeight * gridSize;
                     if (newHeadPos.y >= gridOffsetY + gridHeight * gridSize) newHeadPos.y -= gridHeight * gridSize;
 
-                    // Обнаружение самостолкновения
+                    // ГЋГЎГ­Г Г°ГіГ¦ГҐГ­ГЁГҐ Г±Г Г¬Г®Г±ГІГ®Г«ГЄГ­Г®ГўГҐГ­ГЁГї
                     for (size_t i = 1; i < snake.size(); ++i)
                     {
                         if (snake[0].getGlobalBounds().intersects(snake[i].getGlobalBounds()))
                         {
                             gameOver = true;
-                            break; // Выход из цикла после обнаружения столкновения
+                            break; // Г‚Г»ГµГ®Г¤ ГЁГ§ Г¶ГЁГЄГ«Г  ГЇГ®Г±Г«ГҐ Г®ГЎГ­Г Г°ГіГ¦ГҐГ­ГЁГї Г±ГІГ®Г«ГЄГ­Г®ГўГҐГ­ГЁГї
                         }
                     }
 
                     if (!gameOver)
-                    { // Добавление сегмента только если нет столкновения
+                    { // Г„Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г±ГҐГЈГ¬ГҐГ­ГІГ  ГІГ®Г«ГјГЄГ® ГҐГ±Г«ГЁ Г­ГҐГІ Г±ГІГ®Г«ГЄГ­Г®ГўГҐГ­ГЁГї
                         snake.insert(snake.begin(), sf::RectangleShape(sf::Vector2f(gridSize, gridSize)));
                         snake[0].setFillColor(sf::Color::Green);
                         snake[0].setPosition(newHeadPos);
                     }
 
-                    // Проверка на столкновение
+                    // ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г±ГІГ®Г«ГЄГ­Г®ГўГҐГ­ГЁГҐ
                     if (snake[0].getGlobalBounds().intersects(yellowSquare.getGlobalBounds()))
                     {
                         yellowSquarePosition = getRandomGridPosition(gridSize, gridWidth, gridHeight, gridOffsetX, gridOffsetY);
@@ -229,7 +228,7 @@ int main()
 
                 window.clear();
                 for (const auto& sq : squares) window.draw(sq);
-                for (const auto& segment : snake) window.draw(segment); // Рисуем все сегменты змейки
+                for (const auto& segment : snake) window.draw(segment); // ГђГЁГ±ГіГҐГ¬ ГўГ±ГҐ Г±ГҐГЈГ¬ГҐГ­ГІГ» Г§Г¬ГҐГ©ГЄГЁ
                 window.draw(yellowSquare);
                 window.draw(highscoreText);
                 window.draw(bestscoreText);
@@ -249,7 +248,7 @@ int main()
 
                     if (clock.getElapsedTime().asSeconds() >= 3.f) 
                     {
-                        gameOver = false; // Сброс gameOver только после задержки
+                        gameOver = false; // Г‘ГЎГ°Г®Г± gameOver ГІГ®Г«ГјГЄГ® ГЇГ®Г±Г«ГҐ Г§Г Г¤ГҐГ°Г¦ГЄГЁ
                         gameState = GameState::Menu;
                         attachedCount = 0;
                         clock.restart();
@@ -259,7 +258,7 @@ int main()
                         {
                             newSnake.push_back(snake[0]);
                         }
-                        snake = newSnake; // Заменяем старый вектор новым
+                        snake = newSnake; // Г‡Г Г¬ГҐГ­ГїГҐГ¬ Г±ГІГ Г°Г»Г© ГўГҐГЄГІГ®Г° Г­Г®ГўГ»Г¬
                     }
                     break;
                 }   
