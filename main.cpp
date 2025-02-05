@@ -9,7 +9,7 @@
 
 enum class GameState { Menu, Game, GameOver };
 
-// Ôóíêöèÿ äëÿ ãåíåðàöèè ñëó÷àéíûõ êîîðäèíàò âíóòðè ñåòêè
+// Функция для генерации случайных координат внутри сетки
 sf::Vector2f getRandomGridPosition(float gridSize, float gridWidth, float gridHeight, float gridOffsetX, float gridOffsetY) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -39,11 +39,11 @@ void saveBestScore(const std::string& filename, int bestScore) {
 
 int main()
 {
-    bool gameOver = false; // Ôëàã, óêàçûâàþùèé íà îêîí÷àíèå èãðû
+    bool gameOver = false; // Флаг, указывающий на окончание игры
 
     sf::RenderWindow window(sf::VideoMode(400, 400), "Snake!");
 
-    sf::Vector2f snakeDirection = { 1.f, 0.f }; // Íà÷àëüíîå íàïðàâëåíèå: âïðàâî
+    sf::Vector2f snakeDirection = { 1.f, 0.f }; // Начальное направление: вправо
 
     sf::Color grayColor(128, 128, 128);
 
@@ -63,28 +63,28 @@ int main()
 
     int attachedCount = 0;
 
-    float gridSize = 10.f; // Ðàçìåð êëåòêè ñåòêè
-    float snakeSpeed = gridSize; // Çìåÿ äâèæåòñÿ íà îäíó êëåòêó çà øàã
+    float gridSize = 10.f; // Размер клетки сетки
+    float snakeSpeed = gridSize; // Змея движется на одну клетку за шаг
 
-    float dx = 0.f;   // Èçìåíåíèå êîîðäèíàòû x (â êëåòêàõ)
-    float dy = 0.f;   // Èçìåíåíèå êîîðäèíàòû y (â êëåòêàõ)
+    float dx = 0.f;   // Изменение координаты x (в клетках)
+    float dy = 0.f;   // Изменение координаты y (в клетках)
 
-    // Ïðåäñòàâëåíèå çìåéêè
+    // Представление змейки
     std::vector<sf::RectangleShape> snake;
     snake.push_back(sf::RectangleShape(sf::Vector2f(gridSize, gridSize)));
     snake[0].setFillColor(sf::Color::Green);
     snake[0].setPosition(200, 200);
 
-    sf::Vector2f headPos = snake[0].getPosition(); // Ïîëó÷àåì ïîçèöèþ èç ÃÎËÎÂÛ çìåéêè
+    sf::Vector2f headPos = snake[0].getPosition(); // Получаем позицию из ГОЛОВЫ змейки
 
-    std::string bestScoreFilename = "best_score.txt"; //Èìÿ ôàéëà äëÿ õðàíåíèÿ ëó÷øåãî ñ÷¸òà
-    int bestScore = loadBestScore(bestScoreFilename); // Çàãðóçêà ëó÷øåãî ñ÷¸òà èç ôàéëà
+    std::string bestScoreFilename = "best_score.txt"; //Имя файла для хранения лучшего счёта
+    int bestScore = loadBestScore(bestScoreFilename); // Загрузка лучшего счёта из файла
 
     sf::Font font;
     if (!font.loadFromFile("resources/EpilepsySans.ttf")) {
         return EXIT_FAILURE;
     }
-    // Ýëåìåíòû ìåíþ
+    // Элементы меню
     sf::Text menuTitle("Snake!", font, 48);
     menuTitle.setFillColor(sf::Color::White);
     menuTitle.setPosition(20, 200);
@@ -103,8 +103,8 @@ int main()
     bestscoreText.setFillColor(sf::Color::White);
     bestscoreText.setPosition(20, 20);
 
-    bool isMoving = false; // Ôëàã, óêàçûâàþùèé, äâèæåòñÿ ëè çìåÿ
-    sf::Clock clock;      // ×àñû äëÿ êîíòðîëÿ ñêîðîñòè äâèæåíèÿ
+    bool isMoving = false; // Флаг, указывающий, движется ли змея
+    sf::Clock clock;      // Часы для контроля скорости движения
 
     float gridWidth = (window.getSize().x - 80.f) / gridSize;
     float gridHeight = (window.getSize().y - 140.f) / gridSize;
@@ -177,30 +177,30 @@ int main()
                     sf::Vector2f headPos = snake[0].getPosition();
                     sf::Vector2f newHeadPos = { headPos.x + snakeDirection.x * gridSize, headPos.y + snakeDirection.y * gridSize };
 
-                    // Îáåðòûâàíèå (ñ ó÷¸òîì ñìåùåíèÿ ñåòêè)
+                    // Обертывание (с учётом смещения сетки)
                     if (newHeadPos.x < gridOffsetX) newHeadPos.x += gridWidth * gridSize;
                     if (newHeadPos.x >= gridOffsetX + gridWidth * gridSize) newHeadPos.x -= gridWidth * gridSize;
                     if (newHeadPos.y < gridOffsetY) newHeadPos.y += gridHeight * gridSize;
                     if (newHeadPos.y >= gridOffsetY + gridHeight * gridSize) newHeadPos.y -= gridHeight * gridSize;
 
-                    // Îáíàðóæåíèå ñàìîñòîëêíîâåíèÿ
+                    // Обнаружение самостолкновения
                     for (size_t i = 1; i < snake.size(); ++i)
                     {
                         if (snake[0].getGlobalBounds().intersects(snake[i].getGlobalBounds()))
                         {
                             gameOver = true;
-                            break; // Âûõîä èç öèêëà ïîñëå îáíàðóæåíèÿ ñòîëêíîâåíèÿ
+                            break; // Выход из цикла после обнаружения столкновения
                         }
                     }
 
                     if (!gameOver)
-                    { // Äîáàâëåíèå ñåãìåíòà òîëüêî åñëè íåò ñòîëêíîâåíèÿ
+                    { // Добавление сегмента только если нет столкновения
                         snake.insert(snake.begin(), sf::RectangleShape(sf::Vector2f(gridSize, gridSize)));
                         snake[0].setFillColor(sf::Color::Green);
                         snake[0].setPosition(newHeadPos);
                     }
 
-                    // Ïðîâåðêà íà ñòîëêíîâåíèå
+                    // Проверка на столкновение
                     if (snake[0].getGlobalBounds().intersects(yellowSquare.getGlobalBounds()))
                     {
                         yellowSquarePosition = getRandomGridPosition(gridSize, gridWidth, gridHeight, gridOffsetX, gridOffsetY);
@@ -228,7 +228,7 @@ int main()
 
                 window.clear();
                 for (const auto& sq : squares) window.draw(sq);
-                for (const auto& segment : snake) window.draw(segment); // Ðèñóåì âñå ñåãìåíòû çìåéêè
+                for (const auto& segment : snake) window.draw(segment); // Рисуем все сегменты змейки
                 window.draw(yellowSquare);
                 window.draw(highscoreText);
                 window.draw(bestscoreText);
@@ -248,7 +248,7 @@ int main()
 
                     if (clock.getElapsedTime().asSeconds() >= 3.f) 
                     {
-                        gameOver = false; // Ñáðîñ gameOver òîëüêî ïîñëå çàäåðæêè
+                        gameOver = false; // Сброс gameOver только после задержки
                         gameState = GameState::Menu;
                         attachedCount = 0;
                         clock.restart();
@@ -258,7 +258,7 @@ int main()
                         {
                             newSnake.push_back(snake[0]);
                         }
-                        snake = newSnake; // Çàìåíÿåì ñòàðûé âåêòîð íîâûì
+                        snake = newSnake; // Заменяем старый вектор новым
                     }
                     break;
                 }   
